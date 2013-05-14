@@ -34,7 +34,7 @@ namespace UrlsAndRoutes.Tests
 
         }
 
-        private void TestRoutMatch(
+        private void TestRouteMatch(
             string url, string controller, string action, object routeproperties = null, string httpMethod = "GET")
         {
             //Arrange
@@ -80,7 +80,7 @@ namespace UrlsAndRoutes.Tests
             RouteConfig.RegisterRoutes(routes);
             // Act -process the route
             var result = routes.GetRouteData(this.CreateHttpContext(url));
-           
+
             //Assert
             Assert.IsTrue(result == null || result.Route == null);
         }
@@ -89,14 +89,21 @@ namespace UrlsAndRoutes.Tests
         public void TestIncomingRoutes()
         {
             // check for the URL that we hope to receive
-            this.TestRoutMatch("~/", "Home","Index");
+            this.TestRouteMatch("~/", "Home", "Index");
 
-            //check that the values are being obtained from segments
-            this.TestRoutMatch("~/Customer","Customer","Index");
-            this.TestRoutMatch("~/Customer/List","Customer", "List");
+            this.TestRouteMatch("~/Home", "Home", "Index");
+            this.TestRouteMatch("~/Home/Index", "Home", "Index");
 
-            //ensure that too many or too few segments fails to match
-            this.TestRouteFail("~/Admin/List/All");
+            this.TestRouteMatch("~/Home/About", "Home", "About");
+            this.TestRouteMatch("~/Home/About/MyId", "Home", "About", new { id = "MyId" });
+            this.TestRouteMatch(
+                "~/Home/About/MyId/More/Segments", "Home", "About", new { id = "MyId", catchall = "More/Segments" });
+
+            this.TestRouteFail("~/Home/OtherAction");
+            this.TestRouteFail("~/Account/Index");
+            this.TestRouteFail("~/Account/About");
+
+
         }
     }
 }

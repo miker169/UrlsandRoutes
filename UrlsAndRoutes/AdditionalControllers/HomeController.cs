@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace UrlsAndRoutes.Controllers
+namespace UrlsAndRoutes.AdditionalControllers
 {
     public class HomeController : Controller
     {
@@ -13,18 +13,9 @@ namespace UrlsAndRoutes.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Controller = "Home";
+            ViewBag.Controller = "Additional Controllers - Home";
             ViewBag.Action = "Index";
-
             return View("ActionName");
-        }
-
-        public ActionResult CustomVariable(string id = "DefaultId")
-        {
-            ViewBag.Controller = "Home";
-            ViewBag.Action = "CustomerVariable";
-            ViewBag.CustomVariable =  id;
-            return this.View();
         }
 
     }
